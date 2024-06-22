@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+//Тестовый комментарий
 //Тестовый класс
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
