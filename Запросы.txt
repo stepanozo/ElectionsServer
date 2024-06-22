@@ -1,0 +1,14 @@
+{
+"login": "admin",
+"passwordHash": "admin",
+"voted": false,
+"admin": true
+}
+
+{
+"name": "Владимир Владимирович Путин",
+"yearofbirth": "1952",
+"placeofliving": "Moscow",
+"party": "Самовыдвижение",
+"information": "Действующий президент Российской Федерации"
+}
