@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 //Тестовый комментарий
 //Тестовый класс
+//ТЕСТОВЫЙ КОММЕНТ 3
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class StepanozoApplicationTests {
