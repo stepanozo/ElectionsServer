@@ -11,7 +11,7 @@
 	<groupId>stepanozo</groupId>
 	<artifactId>stepanozo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Elections</name>
+	<name>ElectionsServer</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -110,18 +110,30 @@
                       </exclusion>
                   </exclusions>
               </dependency>
+                <dependency>
+                 <groupId>org.junit.jupiter</groupId>
+                 <artifactId>junit-jupiter-api</artifactId>
+                 <version>5.10.2</version>
+                 <scope>test</scope>
+                 <type>jar</type>
+                </dependency>
+                <dependency>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-test</artifactId>
+                 <version>3.3.1</version>
+                 <scope>test</scope>
+                 <type>jar</type>
+                </dependency>
+            <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+               <dependency>
+                   <groupId>io.jsonwebtoken</groupId>
+                   <artifactId>jjwt-api</artifactId>
+                   <version>0.12.6</version>
+               </dependency>
 	 <dependency>
-	  <groupId>org.junit.jupiter</groupId>
-	  <artifactId>junit-jupiter-api</artifactId>
-	  <version>5.10.2</version>
-	  <scope>test</scope>
-	  <type>jar</type>
-	 </dependency>
-	 <dependency>
-	  <groupId>org.springframework.boot</groupId>
-	  <artifactId>spring-boot-test</artifactId>
-	  <version>3.3.1</version>
-	  <scope>test</scope>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-oauth2-jose</artifactId>
+	  <version>5.0.19.RELEASE</version>
 	  <type>jar</type>
 	 </dependency>
 	</dependencies>

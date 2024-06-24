@@ -4,9 +4,14 @@
  */
 package elections.Controller;
 
+import elections.Exceptions.NoSuchUserException;
+import elections.MD5Hashing.MD5Hashing;
 import elections.service.UserService;
 import elections.model.User;
+import elections.security.LoginData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,7 +38,18 @@ public class UserController {
         return userService.create(user);
     }
     
-    //Пока что это демонстрационные методы
+    @PostMapping("/login/{login}")
+    public ResponseEntity<?> login(@RequestBody LoginData loginData){
+        try{
+            String login = loginData.getLogin();
+            User user = userService.findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не удалось найти пользователя " + login, login));
+            if(user.getPasswordHash().equals(MD5Hashing.hashPassword(loginData.getPassword())))
+                return new ResponseEntity<>(user, HttpStatus.OK); //Вернули статус ОК, т.е. смогли авторизоваться. Позднее сюда надо добавить ТОКЕН.
+            else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login or password");
+        } catch (NoSuchUserException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login or password");
+        }
+    }
     
     @GetMapping
     public Iterable<User> getAll(){
@@ -54,4 +70,6 @@ public class UserController {
     public void markAsVoted(@PathVariable String login){
         userService.markAsVoted(login);
     }
+    
+    
 }
