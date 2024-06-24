@@ -38,17 +38,29 @@ public class UserController {
         return userService.create(user);
     }
     
-    @PostMapping("/login/{login}")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginData loginData){
         try{
             String login = loginData.getLogin();
             User user = userService.findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не удалось найти пользователя " + login, login));
+            System.out.print(MD5Hashing.hashPassword(loginData.getPassword()));
             if(user.getPasswordHash().equals(MD5Hashing.hashPassword(loginData.getPassword())))
                 return new ResponseEntity<>(user, HttpStatus.OK); //Вернули статус ОК, т.е. смогли авторизоваться. Позднее сюда надо добавить ТОКЕН.
             else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login or password");
         } catch (NoSuchUserException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login or password");
         }
+    }
+    
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody LoginData loginData){
+        
+            String login = loginData.getLogin();
+            if(userService.existsByLogin(login))            //Вместо .build() можно использовать .body() чтобы вернуть тело
+                return ResponseEntity.status(HttpStatus.CONFLICT).build(); //Если такой юзер уже существует
+            else if(userService.create(new User(loginData.getLogin(), MD5Hashing.hashPassword(loginData.getPassword()), false, false))!=null)
+                return ResponseEntity.status(HttpStatus.CREATED).build(); //Вернули статус CREATED, т.е. смогли пользователя создать.
+            else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
     
     @GetMapping

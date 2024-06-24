@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService{
     public void markAsVoted(String login){
         userRepository.markAsVoted(login);
     }
+    
+    @Override
+    public boolean existsByLogin(String login){
+        return userRepository.existsById(login);
+    }
 }

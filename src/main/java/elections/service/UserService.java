@@ -19,4 +19,6 @@ public interface UserService {
     public void deleteByLogin(String login);
     
     public void markAsVoted(String login);
+    
+    public boolean existsByLogin(String login);
 }
