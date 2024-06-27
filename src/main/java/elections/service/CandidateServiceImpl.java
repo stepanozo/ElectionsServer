@@ -26,4 +26,14 @@ public class CandidateServiceImpl implements CandidateService{
     public Candidate create(Candidate candidate) {
         return candidateRepository.save(candidate);
     }
+    
+    @Override
+    public Iterable<Candidate> findAll(){
+        return candidateRepository.findAll();
+    }
+    
+    @Override
+    public void deleteAll(){
+        candidateRepository.deleteAll();
+    }
 }

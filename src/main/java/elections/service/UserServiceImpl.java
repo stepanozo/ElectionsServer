@@ -4,6 +4,7 @@
  */
 package elections.service;
 
+import elections.Exceptions.NoSuchUserException;
 import elections.model.User;
 import elections.repository.UserRepository;
 import java.util.Optional;
@@ -49,5 +50,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean existsByLogin(String login){
         return userRepository.existsById(login);
+    }
+    
+    @Override 
+    public boolean checkAdminByLogin(String login) throws NoSuchUserException{
+        User user = userRepository.findById(login).orElseThrow(() -> new NoSuchUserException("Не найден пользователь " + login, login));
+        return user.isAdmin();
+    }
+    
+    @Override
+    public void forgetAllVotes(boolean voted){
+        userRepository.forgetAllVotes(voted);
     }
 }

@@ -30,31 +30,35 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    private long id;
+    private long id = 0;
     
     @Getter
-    private final String name;
+    private String name= "";
     
     @Getter
-    private final int yearOfBirth;
+    private  int yearOfBirth = 0;
     
     @Getter
-    private final String placeofliving;
+    private String placeOfLiving = "";
     
     @Getter
-    private final String party;
+    private String party = "";
     
     @Getter
-    private final String information;
+    private String information = "";
     
     @Getter //Чтобы был и геттер, и сеттер
     @Setter
     private int votes;
     
+    public Candidate(){
+        
+    }
+    
     public Candidate(String name, int yearOfBirth, String placeOfLiving, String party, String information, int votes){
         this.name = name;
         this.yearOfBirth = yearOfBirth;
-        this.placeofliving = placeOfLiving;
+        this.placeOfLiving = placeOfLiving;
         this.party = party;
         this.information = information;
         this.votes = votes;
@@ -93,7 +97,7 @@ public class Candidate {
         return 
             Objects.equals(candidate.name, this.name) && 
             candidate.yearOfBirth == this.yearOfBirth && 
-            Objects.equals(candidate.placeofliving, this.placeofliving) &&
+            Objects.equals(candidate.placeOfLiving, this.placeOfLiving) &&
             Objects.equals(candidate.party, this.party) &&
             Objects.equals(candidate.information, this.information) && 
             candidate.votes == this.votes;
@@ -104,7 +108,7 @@ public class Candidate {
         return 
             name.hashCode() + 
             ((Integer)yearOfBirth).hashCode() +
-            placeofliving.hashCode() +
+            placeOfLiving.hashCode() +
             party.hashCode() +
             information.hashCode() +
             ((Integer)votes).hashCode();
@@ -119,7 +123,7 @@ public class Candidate {
                 "Партия: '%s' \n" +
                 "Информация: '%s' \n" +
                 "Количество голосов: %d \n",
-                name, yearOfBirth, placeofliving, party, information, votes
+                name, yearOfBirth, placeOfLiving, party, information, votes
         );
     }
 }

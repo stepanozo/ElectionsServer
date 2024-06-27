@@ -4,12 +4,9 @@
  */
 package elections.Controller;
 
-import elections.model.Candidate;
-import elections.model.User;
-import elections.service.CandidateService;
-import elections.service.UserService;
+import elections.model.ElectionsTime;
+import elections.service.ElectionsTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,25 +17,28 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author чтепоноза
  */
+
 @RestController
-@RequestMapping("/candidates")
-public class CandidateController {
+@RequestMapping("/electionsTime")
+public class ElectionsTimeController {
     
     @Autowired
-    private CandidateService candidateService;
+    private ElectionsTimeService electionsTimeService;
+    
+    @GetMapping("/check-if-exist")
+    boolean checkIfExist(){
+        return electionsTimeService.hasRecords();
+    }
+    
+    @GetMapping("/findLatest")
+    ElectionsTime getLatest(){
+        return electionsTimeService.findLatest().orElse(null);
+    }
     
     @PostMapping
-    public Candidate create(@RequestBody Candidate candidate){
-        return candidateService.create(candidate);
+    public ElectionsTime create(@RequestBody ElectionsTime electionsTime){
+        return electionsTimeService.create(electionsTime);
     }
     
-    @GetMapping
-    public Iterable<Candidate> getAll(){
-        return candidateService.findAll();
-    }
-    
-    @DeleteMapping
-    public void deleteAll(){
-        candidateService.deleteAll();
-    }
+
 }

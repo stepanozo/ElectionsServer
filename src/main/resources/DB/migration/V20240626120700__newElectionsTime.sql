@@ -4,9 +4,10 @@
  */
 /**
  * Author:  чтепоноза
- * Created: 21 июн. 2024 г.
+ * Created: 26 июн. 2024 г.
  */
 
 
-INSERT INTO users (login, password_hash, voted, is_admin)
-VALUES ('admin', '21232F297A57A5A743894A0E4A801FC3', false, true);
+ALTER TABLE elections_time
+ADD id SERIAL PRIMARY KEY,
+ADD ended BOOLEAN NOT NULL;

@@ -7,6 +7,10 @@
  * Created: 21 июн. 2024 г.
  */
 
+delete from users where login = 'admin';
+
+ALTER TABLE users ADD UNIQUE (login);
 
 INSERT INTO users (login, password_hash, voted, is_admin)
-VALUES ('admin', '21232F297A57A5A743894A0E4A801FC3', false, true);
+VALUES ('admin', '21232F297A57A5A743894A0E4A801FC3', false, true)
+ON CONFLICT (login) DO NOTHING;

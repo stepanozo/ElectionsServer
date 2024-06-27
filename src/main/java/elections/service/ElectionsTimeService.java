@@ -4,20 +4,24 @@
  */
 package elections.service;
 
-import elections.model.Candidate;
+import elections.model.ElectionsTime;
 import elections.model.User;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author чтепоноза
  */
+
 @Service
-public interface CandidateService {
-    public Candidate create(Candidate candidate);
+public interface ElectionsTimeService {
+    public ElectionsTime create(ElectionsTime electionsTime);
     
-    public Iterable<Candidate> findAll();
+    public Iterable<ElectionsTime> findAll();
     
-        
-    public void deleteAll();
+    public Optional<ElectionsTime> findLatest();
+   
+    public boolean hasRecords();
+
 }

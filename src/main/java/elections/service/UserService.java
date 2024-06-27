@@ -4,6 +4,7 @@
  */
 package elections.service;
 
+import elections.Exceptions.NoSuchUserException;
 import elections.model.User;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -21,4 +22,8 @@ public interface UserService {
     public void markAsVoted(String login);
     
     public boolean existsByLogin(String login);
+    
+    public boolean checkAdminByLogin(String login) throws NoSuchUserException;
+    
+    public void forgetAllVotes(boolean voted);
 }

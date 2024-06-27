@@ -73,6 +73,16 @@ public class UserController {
         return userService.findByLogin(login).orElse(null);
     }
     
+    @GetMapping("/{login}:check-if-admin") //В данном случае login выступает как id
+    public boolean checkAdminByLogin(@PathVariable String login){
+        try{
+            return userService.checkAdminByLogin(login);
+        } catch (NoSuchUserException e){
+            return false;
+        }
+        
+    }
+    
     @DeleteMapping("/{login}") //В данном случае login выступает как id
     public void deleteById(@PathVariable String login){
         userService.deleteByLogin(login);
@@ -81,6 +91,11 @@ public class UserController {
     @PatchMapping("/{login}:mark-as-voted")
     public void markAsVoted(@PathVariable String login){
         userService.markAsVoted(login);
+    }
+    
+    @PatchMapping()
+    public void forgetAllVotes(@PathVariable boolean voted){
+        userService.forgetAllVotes(voted);
     }
     
     
