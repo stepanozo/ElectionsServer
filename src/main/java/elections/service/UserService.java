@@ -25,5 +25,5 @@ public interface UserService {
     
     public boolean checkAdminByLogin(String login) throws NoSuchUserException;
     
-    public void forgetAllVotes(boolean voted);
+    public void forgetAllVotes();
 }

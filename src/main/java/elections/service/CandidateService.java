@@ -18,6 +18,7 @@ public interface CandidateService {
     
     public Iterable<Candidate> findAll();
     
-        
     public void deleteAll();
+    
+    public void voteById(Long id);
 }

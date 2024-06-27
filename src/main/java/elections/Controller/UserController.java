@@ -93,10 +93,11 @@ public class UserController {
         userService.markAsVoted(login);
     }
     
-    @PatchMapping()
-    public void forgetAllVotes(@PathVariable boolean voted){
-        userService.forgetAllVotes(voted);
+    @PatchMapping("/forgetVotes")
+    public void forgetAllVotes(){
+        userService.forgetAllVotes();
     }
+    
     
     
 }

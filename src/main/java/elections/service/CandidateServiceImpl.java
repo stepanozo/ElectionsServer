@@ -36,4 +36,9 @@ public class CandidateServiceImpl implements CandidateService{
     public void deleteAll(){
         candidateRepository.deleteAll();
     }
+    
+    @Override
+    public void voteById(Long id){
+        candidateRepository.voteForCandidateById(id);
+    }
 }

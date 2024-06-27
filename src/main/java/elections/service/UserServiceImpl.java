@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public void forgetAllVotes(boolean voted){
-        userRepository.forgetAllVotes(voted);
+    public void forgetAllVotes(){
+        userRepository.forgetAllVotes();
     }
 }

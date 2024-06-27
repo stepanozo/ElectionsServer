@@ -26,7 +26,7 @@ public interface UserRepository extends CrudRepository<User, String> {
     void markAsVoted(@Param("login") String login);
     
     @Modifying
-    @Query("UPDATE User u set u.voted = :voted") //Это язык JPQL для запросов к сущностям из базы данных
-    void forgetAllVotes(boolean voted);
+    @Query("UPDATE User u set u.voted = FALSE WHERE u.voted = TRUE") //Это язык JPQL для запросов к сущностям из базы данных
+    void forgetAllVotes();
     
 }

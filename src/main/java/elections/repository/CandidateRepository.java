@@ -5,8 +5,9 @@
 package elections.repository;
 
 import elections.model.Candidate;
-import elections.model.User;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface CandidateRepository extends CrudRepository<Candidate, Long>{
     
+    @Modifying
+    @Query("UPDATE Candidate c set c.votes = c.votes + 1 WHERE c.id = :id")
+    void voteForCandidateById(Long id);
 }
