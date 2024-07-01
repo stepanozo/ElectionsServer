@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @author чтепоноза
  */
 
-@Transactional
+
 @Service
 public class ElectionsTimeServiceImpl implements ElectionsTimeService{
     
@@ -41,6 +41,11 @@ public class ElectionsTimeServiceImpl implements ElectionsTimeService{
     @Override
     public boolean hasRecords(){
         return electionsTimeRepository.hasRecords();
+    }
+    
+    @Override
+    public boolean existsById(Long id){
+        return electionsTimeRepository.existsById(id);
     }
     
 

@@ -4,13 +4,19 @@
  */
 package elections.NewExceptions;
 
+import lombok.Getter;
+
 /**
  *
  * @author чтепоноза
  */
-public class InvalidDeleteException extends Exception {
-   
-    public InvalidDeleteException(String message){
+public class InvalidCandidateVoteException extends Exception {
+    
+    @Getter
+    private final long id;
+    
+    public InvalidCandidateVoteException(String message, long id){
         super(message);
+        this.id = id;
     }
 }

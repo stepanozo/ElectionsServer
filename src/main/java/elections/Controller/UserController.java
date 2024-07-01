@@ -6,8 +6,11 @@ package elections.Controller;
 
 import elections.Exceptions.NoSuchUserException;
 import elections.MD5Hashing.MD5Hashing;
-import elections.NewExceptions.InvalidDeleteException;
-import elections.NewExceptions.InvalidVoteException;
+import elections.NewExceptions.AlreadyAdminException;
+import elections.NewExceptions.InvalidAdminMarkingException;
+import elections.NewExceptions.InvalidUserDeleteException;
+import elections.NewExceptions.InvalidUserVoteException;
+import elections.NewExceptions.NotAdminException;
 import elections.service.UserService;
 import elections.model.User;
 import elections.security.LoginData;
@@ -108,7 +111,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (NoSuchUserException e){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (InvalidDeleteException e){
+        } catch (InvalidUserDeleteException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
@@ -120,8 +123,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch(NoSuchUserException e){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch(InvalidVoteException e){
+        } catch(InvalidUserVoteException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+    
+    @PatchMapping("/{login}/mark-as-admin/{admin}")
+    public ResponseEntity<?> markAsAdmin(@PathVariable String login, @PathVariable boolean admin) {
+        try{
+            userService.markAsAdmin(login, admin);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch(NoSuchUserException e){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch(AlreadyAdminException e){
+            return new ResponseEntity<>("Пользователь уже является админом", HttpStatus.CONFLICT);
+        } catch(NotAdminException e){
+            return new ResponseEntity<>("Пользователь уже не является админом", HttpStatus.CONFLICT);
+        } catch(InvalidAdminMarkingException e){
+            return new ResponseEntity<>("Не зафиксированы изменения", HttpStatus.CONFLICT);
         }
     }
     

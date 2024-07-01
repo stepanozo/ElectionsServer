@@ -2,21 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elections.Exceptions;
+package elections.NewExceptions;
+
+import lombok.Getter;
 
 /**
  *
  * @author чтепоноза
  */
-public class AlreadyAdminException extends Exception{
+public class InvalidUserDeleteException extends Exception {
+   
+    @Getter
+    private final String login;
     
-    private String login;
-    
-    public String getLogin(){
-        return login;
-    }
-    
-    public AlreadyAdminException(String message, String login){
+    public InvalidUserDeleteException(String message, String login){
         super(message);
         this.login = login;
     }

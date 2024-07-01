@@ -4,20 +4,19 @@
  */
 package elections.Exceptions;
 
+import lombok.Getter;
+
 /**
  *
  * @author чтепоноза
  */
 public class NoSuchCandidateException extends Exception{
     
-    private String name;
+    @Getter
+    private final long id;
     
-    public String getName(){
-        return name;
-    }
-    
-    public NoSuchCandidateException(String message, String name){
+    public NoSuchCandidateException(String message, long id){
         super(message);
-        this.name = name;
+        this.id = id;
     }
 }

@@ -32,4 +32,8 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query("SELECT Count(u) FROM User u WHERE u.voted = TRUE")
     int countAllWhoVoted();
     
+    @Modifying
+    @Query("UPDATE User u set u.isAdmin = :admin WHERE u.login = :login") //Это язык JPQL для запросов к сущностям из базы данных
+    void markAsAdmin(@Param("login") String login, @Param("admin") boolean admin);
+    
 }

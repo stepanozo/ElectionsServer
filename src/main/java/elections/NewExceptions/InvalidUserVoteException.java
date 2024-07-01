@@ -4,15 +4,18 @@
  */
 package elections.NewExceptions;
 
+import lombok.Getter;
+
 /**
  *
  * @author чтепоноза
  */
-public class InvalidVoteException extends Exception {
+public class InvalidUserVoteException extends Exception {
     
-    private String login;
+    @Getter
+    private final String login;
     
-    public InvalidVoteException(String message, String login){
+    public InvalidUserVoteException(String message, String login){
         super(message);
         this.login = login;
     }

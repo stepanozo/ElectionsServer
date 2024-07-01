@@ -5,8 +5,11 @@
 package elections.service;
 
 import elections.Exceptions.NoSuchUserException;
-import elections.NewExceptions.InvalidDeleteException;
-import elections.NewExceptions.InvalidVoteException;
+import elections.NewExceptions.AlreadyAdminException;
+import elections.NewExceptions.InvalidAdminMarkingException;
+import elections.NewExceptions.InvalidUserDeleteException;
+import elections.NewExceptions.InvalidUserVoteException;
+import elections.NewExceptions.NotAdminException;
 import elections.model.User;
 import elections.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Service;
  *
  * @author чтепоноза
  */
-@Transactional
+
 @Service //Без этой аннотации не сработает почему-то Autowired
 public class UserServiceImpl implements UserService{
     
@@ -41,24 +44,24 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public boolean deleteByLogin(String login) throws NoSuchUserException, InvalidDeleteException{
+    public boolean deleteByLogin(String login) throws NoSuchUserException, InvalidUserDeleteException{
         if(!userRepository.existsById(login))
             throw new NoSuchUserException("Удаляемый пользователь не существует " + login, login);
         userRepository.deleteById(login);
         if(userRepository.existsById(login))
-            throw new InvalidDeleteException("Пользователь существует после удаления " + login, login);
+            throw new InvalidUserDeleteException("Пользователь существует после удаления " + login, login);
         return true;
     }
     
     @Override
-    public void markAsVoted(String login) throws NoSuchUserException, InvalidVoteException{
+    public void markAsVoted(String login) throws NoSuchUserException, InvalidUserVoteException{
         
         if(!userRepository.existsById(login))
             throw new NoSuchUserException("Не найден пользователь " + login, login);
         userRepository.markAsVoted(login);
         User user = findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не найден пользователь " + login, login));
         if (!user.isVoted())
-            throw new InvalidVoteException("Не зафиксирован голос пользователя " + login, login);
+            throw new InvalidUserVoteException("Не зафиксирован голос пользователя " + login, login);
     }
     
     @Override
@@ -80,5 +83,22 @@ public class UserServiceImpl implements UserService{
     @Override
     public int countWhoVoted(){
         return userRepository.countAllWhoVoted();
+    }
+    
+    @Override
+    public void markAsAdmin(String login, boolean admin) throws NoSuchUserException, AlreadyAdminException, NotAdminException, InvalidAdminMarkingException{
+        
+        if(!userRepository.existsById(login))
+            throw new NoSuchUserException("Не найден пользователь " + login, login);
+        User user = findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не найден пользователь " + login, login));
+        if(admin == user.isAdmin()){
+            if(admin == true)
+                throw new AlreadyAdminException("Пользователь " + login + " уже не админ.", login) ;
+            else throw new NotAdminException("Пользователь " + login + " уже админ.", login);        
+        }      
+        userRepository.markAsAdmin(login, admin);
+        user = findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не найден пользователь " + login, login));
+        if (user.isAdmin()!=admin)
+            throw new InvalidAdminMarkingException("Не зафиксированы изменения в правах админа. Должно быть: admin = " + admin + " у пользователя " + login, login, admin);
     }
 }

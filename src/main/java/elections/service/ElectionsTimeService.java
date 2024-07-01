@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @author чтепоноза
  */
 
-@Transactional
+
 @Service
 public interface ElectionsTimeService {
     public ElectionsTime create(ElectionsTime electionsTime);
@@ -25,5 +25,7 @@ public interface ElectionsTimeService {
     public Optional<ElectionsTime> findLatest();
    
     public boolean hasRecords();
+    
+    public boolean existsById(Long id);
 
 }

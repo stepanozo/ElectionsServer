@@ -4,13 +4,21 @@
  */
 package elections.NewExceptions;
 
+import elections.model.Candidate;
+import lombok.Getter;
+
 /**
  *
  * @author чтепоноза
  */
-public class InvalidDeleteException extends Exception {
-   
-    public InvalidDeleteException(String message){
+public class CandidateAlreadyExistsException extends Exception{
+    
+    @Getter
+    private Candidate candidate;
+    
+    public CandidateAlreadyExistsException(String message, Candidate candidate){
         super(message);
+        this.candidate = candidate;
     }
+    
 }

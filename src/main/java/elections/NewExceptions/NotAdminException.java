@@ -8,9 +8,16 @@ package elections.NewExceptions;
  *
  * @author чтепоноза
  */
-public class InvalidDeleteException extends Exception {
-   
-    public InvalidDeleteException(String message){
+public class NotAdminException extends Exception{
+    
+    private String login;
+    
+    public String getLogin(){
+        return login;
+    }
+    
+    public NotAdminException(String message, String login){
         super(message);
+        this.login = login;
     }
 }
