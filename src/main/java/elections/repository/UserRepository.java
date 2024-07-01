@@ -29,4 +29,7 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query("UPDATE User u set u.voted = FALSE WHERE u.voted = TRUE") //Это язык JPQL для запросов к сущностям из базы данных
     void forgetAllVotes();
     
+    @Query("SELECT Count(u) FROM User u WHERE u.voted = TRUE")
+    int countAllWhoVoted();
+    
 }

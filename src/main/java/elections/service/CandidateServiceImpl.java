@@ -8,6 +8,7 @@ import elections.model.Candidate;
 import elections.model.User;
 import elections.repository.CandidateRepository;
 import elections.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
  * @author чтепоноза
  */
 
+@Transactional
 @Service //Без этой аннотации не сработает почему-то Autowired
 public class CandidateServiceImpl implements CandidateService{
     

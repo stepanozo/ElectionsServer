@@ -5,8 +5,11 @@
 package elections.service;
 
 import elections.Exceptions.NoSuchUserException;
+import elections.NewExceptions.InvalidDeleteException;
+import elections.NewExceptions.InvalidVoteException;
 import elections.model.User;
 import elections.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Service;
  *
  * @author чтепоноза
  */
-
+@Transactional
 @Service //Без этой аннотации не сработает почему-то Autowired
 public class UserServiceImpl implements UserService{
     
@@ -38,13 +41,24 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public void deleteByLogin(String login){
-        userRepository.deleteById(login); //login здесь выступает в качестве id
+    public boolean deleteByLogin(String login) throws NoSuchUserException, InvalidDeleteException{
+        if(!userRepository.existsById(login))
+            throw new NoSuchUserException("Удаляемый пользователь не существует " + login, login);
+        userRepository.deleteById(login);
+        if(userRepository.existsById(login))
+            throw new InvalidDeleteException("Пользователь существует после удаления " + login, login);
+        return true;
     }
     
     @Override
-    public void markAsVoted(String login){
+    public void markAsVoted(String login) throws NoSuchUserException, InvalidVoteException{
+        
+        if(!userRepository.existsById(login))
+            throw new NoSuchUserException("Не найден пользователь " + login, login);
         userRepository.markAsVoted(login);
+        User user = findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не найден пользователь " + login, login));
+        if (!user.isVoted())
+            throw new InvalidVoteException("Не зафиксирован голос пользователя " + login, login);
     }
     
     @Override
@@ -61,5 +75,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void forgetAllVotes(){
         userRepository.forgetAllVotes();
+    }
+    
+    @Override
+    public int countWhoVoted(){
+        return userRepository.countAllWhoVoted();
     }
 }

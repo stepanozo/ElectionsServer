@@ -6,9 +6,12 @@ package elections.Controller;
 
 import elections.Exceptions.NoSuchUserException;
 import elections.MD5Hashing.MD5Hashing;
+import elections.NewExceptions.InvalidDeleteException;
+import elections.NewExceptions.InvalidVoteException;
 import elections.service.UserService;
 import elections.model.User;
 import elections.security.LoginData;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +36,15 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    @Transactional
     @PostMapping
-    public User create(@RequestBody User user){
-        return userService.create(user);
+    public ResponseEntity<User> create(@RequestBody User user){
+        userService.create(user);
+        
+        if(userService.existsByLogin(user.getLogin())){
+            return new ResponseEntity<>(user, HttpStatus.CREATED); //Вернули статус ОК, т.е. смогли авторизоваться. Позднее сюда надо добавить ТОКЕН.
+        }
+        else return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
     
     @PostMapping("/login")
@@ -52,52 +61,79 @@ public class UserController {
         }
     }
     
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody LoginData loginData){
         
-            String login = loginData.getLogin();
-            if(userService.existsByLogin(login))            //Вместо .build() можно использовать .body() чтобы вернуть тело
-                return ResponseEntity.status(HttpStatus.CONFLICT).build(); //Если такой юзер уже существует
-            else if(userService.create(new User(loginData.getLogin(), MD5Hashing.hashPassword(loginData.getPassword()), false, false))!=null)
-                return ResponseEntity.status(HttpStatus.CREATED).build(); //Вернули статус CREATED, т.е. смогли пользователя создать.
-            else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        String login = loginData.getLogin();
+        if(userService.existsByLogin(login))            //Вместо .build() можно использовать .body() чтобы вернуть тело
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); //Если такой юзер уже существует
+        else if(userService.create(new User(loginData.getLogin(), MD5Hashing.hashPassword(loginData.getPassword()), false, false))!=null)
+            return ResponseEntity.status(HttpStatus.CREATED).build(); //Вернули статус CREATED, т.е. смогли пользователя создать.
+        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
     
     @GetMapping
-    public Iterable<User> getAll(){
-        return userService.findAll();
+    public ResponseEntity<Iterable<User>> getAll(){
+        
+        Iterable<User> users = userService.findAll();
+       
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
     
     @GetMapping("/{login}") //В данном случае login выступает как id
-    public User getByLogin(@PathVariable String login){
-        return userService.findByLogin(login).orElse(null);
+    public ResponseEntity<User> getByLogin(@PathVariable String login){
+
+        User user = userService.findByLogin(login).orElse(null);
+        if(user == null)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        else return new ResponseEntity<>(user, HttpStatus.OK);
+ 
     }
     
     @GetMapping("/{login}:check-if-admin") //В данном случае login выступает как id
-    public boolean checkAdminByLogin(@PathVariable String login){
+    public ResponseEntity<Boolean> checkAdminByLogin(@PathVariable String login){
         try{
-            return userService.checkAdminByLogin(login);
+            return new ResponseEntity<>(userService.checkAdminByLogin(login), HttpStatus.OK);
         } catch (NoSuchUserException e){
-            return false;
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         
     }
-    
+   
     @DeleteMapping("/{login}") //В данном случае login выступает как id
-    public void deleteById(@PathVariable String login){
-        userService.deleteByLogin(login);
+    public ResponseEntity<?> deleteById(@PathVariable String login) { 
+        try{
+            boolean success = userService.deleteByLogin(login);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (NoSuchUserException e){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (InvalidDeleteException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
     
     @PatchMapping("/{login}:mark-as-voted")
-    public void markAsVoted(@PathVariable String login){
-        userService.markAsVoted(login);
+    public ResponseEntity<?> markAsVoted(@PathVariable String login) {
+        try{
+            userService.markAsVoted(login);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch(NoSuchUserException e){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch(InvalidVoteException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
     
+    @Transactional
     @PatchMapping("/forgetVotes")
-    public void forgetAllVotes(){
+    public ResponseEntity<?> forgetAllVotes(){
         userService.forgetAllVotes();
+        if(userService.countWhoVoted() > 0)
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        else return ResponseEntity.status(HttpStatus.OK).build();
+            
     }
-    
     
     
 }

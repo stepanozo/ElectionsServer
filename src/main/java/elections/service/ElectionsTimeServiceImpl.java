@@ -6,6 +6,7 @@ package elections.service;
 
 import elections.model.ElectionsTime;
 import elections.repository.ElectionsTimeRepository;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @author чтепоноза
  */
 
+@Transactional
 @Service
 public class ElectionsTimeServiceImpl implements ElectionsTimeService{
     

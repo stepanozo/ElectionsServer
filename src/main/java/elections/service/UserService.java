@@ -5,10 +5,14 @@
 package elections.service;
 
 import elections.Exceptions.NoSuchUserException;
+import elections.NewExceptions.InvalidDeleteException;
+import elections.NewExceptions.InvalidVoteException;
 import elections.model.User;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
+@Transactional
 @Service
 public interface UserService {
     public User create(User user);
@@ -17,13 +21,15 @@ public interface UserService {
     
     public Optional<User> findByLogin(String login);
     
-    public void deleteByLogin(String login);
+    public boolean deleteByLogin(String login) throws NoSuchUserException, InvalidDeleteException;
     
-    public void markAsVoted(String login);
+    public void markAsVoted(String login) throws NoSuchUserException, InvalidVoteException;
     
     public boolean existsByLogin(String login);
     
     public boolean checkAdminByLogin(String login) throws NoSuchUserException;
     
     public void forgetAllVotes();
+    
+    public int countWhoVoted();
 }

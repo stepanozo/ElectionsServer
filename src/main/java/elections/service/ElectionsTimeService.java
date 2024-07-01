@@ -6,6 +6,7 @@ package elections.service;
 
 import elections.model.ElectionsTime;
 import elections.model.User;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
  * @author чтепоноза
  */
 
+@Transactional
 @Service
 public interface ElectionsTimeService {
     public ElectionsTime create(ElectionsTime electionsTime);

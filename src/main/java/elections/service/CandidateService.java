@@ -6,12 +6,15 @@ package elections.service;
 
 import elections.model.Candidate;
 import elections.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author чтепоноза
  */
+
+@Transactional
 @Service
 public interface CandidateService {
     public Candidate create(Candidate candidate);

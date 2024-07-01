@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
 import lombok.Data;
+import lombok.Getter;
 
 /**
  *
@@ -16,18 +17,22 @@ import lombok.Data;
  */
 
 @Entity
-@Data //Чтобы появились геттеры и сеттеры. В интернете пишут, что для сущностей лучше @Data не юзать, но у меня тут правда и геттеры, и сеттеры были
 @Table(name = "users")
 public class User {
     
     
     //Всем полям даём пустые значения по умолчанию, т.к. это нужно для пустого конструктора, без которого не будет работать Hibernate.
     @Id
+    @Getter
     private String login ="";
     
+    @Getter
     private String passwordHash = "";
+    
+    @Getter
     private boolean voted = false;
     
+    @Getter
     private boolean isAdmin = false;
     
     

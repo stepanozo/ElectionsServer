@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/electionsDB
+    url: jdbc:postgresql://localhost:5432/electionsDB
     username: admin
     password: password
     
 flyway:
-  url: jdbc:postgresql://localhost:5432/course
+  url: jdbc:postgresql://localhost:5432/electionsDB
   user: postgres
   password: 12345
   enabled: true
