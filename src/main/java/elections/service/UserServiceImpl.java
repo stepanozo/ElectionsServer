@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public void markAsAdmin(String login, boolean admin) throws NoSuchUserException, AlreadyAdminException, NotAdminException, InvalidAdminMarkingException{
+    public void markAsAdmin(String login, boolean admin) throws NoSuchUserException, AlreadyAdminException, NotAdminException{
         
         if(!userRepository.existsById(login))
             throw new NoSuchUserException("Не найден пользователь " + login, login);
@@ -97,8 +97,5 @@ public class UserServiceImpl implements UserService{
             else throw new NotAdminException("Пользователь " + login + " уже админ.", login);        
         }      
         userRepository.markAsAdmin(login, admin);
-        user = findByLogin(login).orElseThrow(() -> new NoSuchUserException("Не найден пользователь " + login, login));
-        if (user.isAdmin()!=admin)
-            throw new InvalidAdminMarkingException("Не зафиксированы изменения в правах админа. Должно быть: admin = " + admin + " у пользователя " + login, login, admin);
     }
 }

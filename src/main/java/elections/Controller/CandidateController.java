@@ -5,17 +5,10 @@
 package elections.Controller;
 
 import elections.Exceptions.NoSuchCandidateException;
-import elections.Exceptions.NoSuchUserException;
-import elections.MD5Hashing.MD5Hashing;
-import elections.NewExceptions.CandidateAlreadyExistsException;
 import elections.NewExceptions.InvalidCandidateVoteException;
 import elections.NewExceptions.InvalidDeleteException;
-import elections.NewExceptions.InvalidUserDeleteException;
-import elections.NewExceptions.InvalidUserVoteException;
 import elections.model.Candidate;
-import elections.model.User;
 import elections.service.CandidateService;
-import elections.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

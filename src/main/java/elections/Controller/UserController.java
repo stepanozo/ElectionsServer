@@ -116,7 +116,7 @@ public class UserController {
         }
     }
     
-    @PatchMapping("/{login}:mark-as-voted")
+    @PatchMapping("/{login}/mark-as-voted")
     public ResponseEntity<?> markAsVoted(@PathVariable String login) {
         try{
             userService.markAsVoted(login);
@@ -139,8 +139,6 @@ public class UserController {
             return new ResponseEntity<>("Пользователь уже является админом", HttpStatus.CONFLICT);
         } catch(NotAdminException e){
             return new ResponseEntity<>("Пользователь уже не является админом", HttpStatus.CONFLICT);
-        } catch(InvalidAdminMarkingException e){
-            return new ResponseEntity<>("Не зафиксированы изменения", HttpStatus.CONFLICT);
         }
     }
     

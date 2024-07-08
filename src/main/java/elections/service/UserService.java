@@ -36,5 +36,5 @@ public interface UserService {
     
     public int countWhoVoted();
     
-    public void markAsAdmin(String login, boolean admin) throws NoSuchUserException, AlreadyAdminException, NotAdminException, InvalidAdminMarkingException;
+    public void markAsAdmin(String login, boolean admin) throws NoSuchUserException, AlreadyAdminException, NotAdminException;
 }
