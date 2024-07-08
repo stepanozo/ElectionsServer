@@ -14,7 +14,7 @@ import lombok.Getter;
 public class CandidateAlreadyExistsException extends Exception{
     
     @Getter
-    private Candidate candidate;
+    private final Candidate candidate;
     
     public CandidateAlreadyExistsException(String message, Candidate candidate){
         super(message);

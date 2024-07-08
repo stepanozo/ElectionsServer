@@ -4,7 +4,7 @@
  */
 package elections.Controller;
 
-import elections.Exceptions.NoSuchCandidateException;
+import elections.NewExceptions.NoSuchCandidateException;
 import elections.NewExceptions.InvalidCandidateVoteException;
 import elections.NewExceptions.InvalidDeleteException;
 import elections.model.Candidate;

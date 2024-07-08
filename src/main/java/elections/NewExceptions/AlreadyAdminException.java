@@ -4,17 +4,16 @@
  */
 package elections.NewExceptions;
 
+import lombok.Getter;
+
 /**
  *
  * @author чтепоноза
  */
 public class AlreadyAdminException extends Exception{
     
-    private String login;
-    
-    public String getLogin(){
-        return login;
-    }
+    @Getter
+    private final String login;
     
     public AlreadyAdminException(String message, String login){
         super(message);

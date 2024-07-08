@@ -4,18 +4,17 @@
  */
 package elections.NewExceptions;
 
+import lombok.Getter;
+
 /**
  *
  * @author чтепоноза
  */
 public class NotAdminException extends Exception{
     
-    private String login;
-    
-    public String getLogin(){
-        return login;
-    }
-    
+    @Getter
+    private final String login;
+
     public NotAdminException(String message, String login){
         super(message);
         this.login = login;

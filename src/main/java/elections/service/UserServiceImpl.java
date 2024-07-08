@@ -4,15 +4,13 @@
  */
 package elections.service;
 
-import elections.Exceptions.NoSuchUserException;
+import elections.NewExceptions.NoSuchUserException;
 import elections.NewExceptions.AlreadyAdminException;
-import elections.NewExceptions.InvalidAdminMarkingException;
 import elections.NewExceptions.InvalidUserDeleteException;
 import elections.NewExceptions.InvalidUserVoteException;
 import elections.NewExceptions.NotAdminException;
 import elections.model.User;
 import elections.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

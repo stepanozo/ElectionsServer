@@ -4,18 +4,11 @@
  */
 package elections.service;
 
-import elections.Exceptions.NoSuchCandidateException;
-import elections.Exceptions.NoSuchUserException;
-import elections.NewExceptions.CandidateAlreadyExistsException;
+import elections.NewExceptions.NoSuchCandidateException;
 import elections.NewExceptions.InvalidCandidateVoteException;
 import elections.NewExceptions.InvalidDeleteException;
-import elections.NewExceptions.InvalidUserDeleteException;
-import elections.NewExceptions.InvalidUserVoteException;
 import elections.model.Candidate;
-import elections.model.User;
 import elections.repository.CandidateRepository;
-import elections.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,13 +27,7 @@ public class CandidateServiceImpl implements CandidateService{
 
     @Override
     public Candidate create(Candidate candidate) {
-        
-//        if(candidateRepository.existsByName(candidate.getName())) {
-//            Candidate dbCandidate = candidateRepository.findByName(candidate.getName()).orElseThrow(()-> new NoSuchCandidateException("Нет такого кандидата: " + candidate.getName(), candidate.getId()));
-//            throw new CandidateAlreadyExistsException("Кандидат с именем " + dbCandidate.getName() + " уже существует.", dbCandidate);
-//        } else {
-            return candidateRepository.save(candidate);
-        
+        return candidateRepository.save(candidate);
     }
     
     @Override
@@ -69,13 +56,7 @@ public class CandidateServiceImpl implements CandidateService{
             throw new NoSuchCandidateException("Не найден кандидат " + id, id);
         
         Candidate candidate = findById(id).orElseThrow(() -> new NoSuchCandidateException("Не найден кандидат " + id, id));
- //       int previousVotes = candidate.getVotes();
         candidateRepository.voteForCandidateById(id);
-                //Тут была проверка, но в ней почему-то не увеличивается кол-во голосов
-//        //Теперь проверим, что голос зафиксирован
-//        candidate = candidateRepository.findById(id).orElseThrow(() -> new NoSuchCandidateException("Не найден кандидат " + id, id));
-//        if(candidate.getVotes() != previousVotes + 1)
-//            throw new InvalidCandidateVoteException("Не удалось поставить голос за кандидата " + id, id);
     }
     
     @Override

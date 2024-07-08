@@ -4,10 +4,9 @@
  */
 package elections.Controller;
 
-import elections.Exceptions.NoSuchUserException;
+import elections.NewExceptions.NoSuchUserException;
 import elections.MD5Hashing.MD5Hashing;
 import elections.NewExceptions.AlreadyAdminException;
-import elections.NewExceptions.InvalidAdminMarkingException;
 import elections.NewExceptions.InvalidUserDeleteException;
 import elections.NewExceptions.InvalidUserVoteException;
 import elections.NewExceptions.NotAdminException;

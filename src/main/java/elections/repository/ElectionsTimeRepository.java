@@ -4,7 +4,6 @@
  */
 package elections.repository;
 
-import elections.model.Candidate;
 import elections.model.ElectionsTime;
 import jakarta.transaction.Transactional;
 import java.util.Optional;

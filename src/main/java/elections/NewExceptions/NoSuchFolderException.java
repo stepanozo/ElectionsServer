@@ -2,22 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package elections.Exceptions;
+package elections.NewExceptions;
+
+import lombok.Getter;
 
 /**
  *
  * @author чтепоноза
  */
-public class NoSuchUserException extends Exception{
+public class NoSuchFolderException extends Exception {
     
-    private String login;
-    
-    public String getLogin(){
-        return login;
-    }
-    
-    public NoSuchUserException(String message, String login){
+    @Getter
+    private final String path;
+    public NoSuchFolderException(String message, String path){
         super(message);
-        this.login = login;
+        this.path = path;
     }
 }

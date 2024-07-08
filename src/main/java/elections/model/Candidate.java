@@ -4,20 +4,12 @@
  */
 package elections.model;
 
-import elections.Exceptions.UnableToReadFileException;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.io.FileReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.File;
-import java.io.BufferedReader;
 import java.util.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -62,25 +54,6 @@ public class Candidate {
         this.party = party;
         this.information = information;
         this.votes = votes;
-    }
-    
-    public static Candidate fromFile(String path) throws UnableToReadFileException{
-        
-        File file = new File(path);
-        if(!file.exists())
-            throw new UnableToReadFileException("Такого файла не существует: ", new File(path).getName());
-        
-        try( BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"))){
-            String name = r.readLine();
-            int yearOfBirth = Integer.parseInt(r.readLine());
-            String placeOfLiving = r.readLine();
-            String party = r.readLine();
-            String information = r.readLine();
-            return new Candidate(name, yearOfBirth, placeOfLiving, party, information, 0);
-        }
-        catch (Exception e){
-            throw new UnableToReadFileException("Не удалось прочитать кандидата из файла: " + file.getName(), file.getName());
-        }
     }
     
     
